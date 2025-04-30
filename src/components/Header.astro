@@ -99,7 +99,7 @@ const socialLinks = [
     }
 
     // Handle active link and smooth scrolling
-    function setActiveLink(activeHref) {
+    function setActiveLink(activeHref: string) {
       const links = document.querySelectorAll(".active-link");
       const currentHash = window.location.hash || "";
       const isHome = !currentHash && (window.location.pathname === "/" || window.location.pathname === "");
@@ -143,13 +143,13 @@ const socialLinks = [
         // Smooth scroll to section
         if (href === "/") {
           window.scrollTo({ top: 0, behavior: "smooth" });
-          window.history.replaceState(null, null, "/");
+          window.history.replaceState(null, "", "/");
         } else if (href.startsWith("#")) {
           const targetId = href.substring(1);
           const targetElement = document.getElementById(targetId);
           if (targetElement) {
             targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
-            window.history.replaceState(null, null, href);
+            window.history.replaceState(null, "", href);
           }
         }
 
