@@ -1,23 +1,22 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  image: string;
-  link: string;
-}
-
-const { title, description, image, link } = Astro.props;
+// src/components/ProjectCard.astro
+const { project } = Astro.props;
 ---
 
 <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-  <img src={image} alt={title} class="w-full h-48 object-cover rounded mb-4" />
-  <h3 class="text-2xl font-bold mb-2">{title}</h3>
-  <p class="text-gray-300 mb-4">{description}</p>
+  {project.image && (
+    <img
+      src={project.image}
+      alt={project.title}
+      class="w-full h-48 object-cover rounded-md mb-4"
+    />
+  )}
+  <h3 class="text-xl font-semibold mb-2 text-white">{project.title}</h3>
+  <p class="text-gray-300 mb-4">{project.shortDescription}</p>
   <a
-    href={link}
-    class="text-blue-400 hover:text-blue-600 transition"
-    target="_blank"
+    href={`/project/${project.id}`}
+    class="text-blue-400 hover:underline"
   >
-    View Project
+    View Details
   </a>
 </div>

@@ -1,53 +1,32 @@
 ---
-import MainLayout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-
-const projects = [
-  {
-    title: "Project 1",
-    description: "A cool project I built using modern tech.",
-    image: "/images/project1.jpg",
-    link: "https://example.com",
-  },
-  {
-    title: "Project 2",
-    description: "Another awesome project showcasing my skills.",
-    image: "/images/project2.jpg",
-    link: "https://example.com",
-  },
-];
+import projects from '../data/projects.js';
 ---
 
-<MainLayout title="Stormy Emery - Portfolio">
+<Layout title="Stormy Emery - Portfolio">
   <Header />
   <Hero
     name="Stormy Emery"
     tagline="Software Engineer & Unity Game Developer"
     bio="With nearly a decade of Unity expertise, I craft mobile games from concept to live updates, specializing in feature development, performance optimization, and cross-team collaboration. Adaptable and detail-oriented, I’m passionate about driving gaming innovation."
   />
-  
-  <section id="projects" class="py-16 bg-gray-900">
-    <div class="container mx-auto">
-      <h2 class="text-4xl font-bold text-center mb-12">My Projects</h2>
+  <section id="projects" class="py-16 pt-24 bg-gray-900 min-h-screen">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-12 text-white">My Projects</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project) => (
-          <ProjectCard
-            title={project.title}
-            description={project.description}
-            image={project.image}
-            link={project.link}
-          />
+          <ProjectCard project={project} />
         ))}
       </div>
     </div>
   </section>
-
   <section id="contact" class="py-16 bg-gray-900">
     <div class="container mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-8">Contact Me</h2>
-      <p class="text-lg mb-6">Feel free to reach out!</p>
+      <h2 class="text-4xl font-bold mb-8 text-white">Contact Me</h2>
+      <p class="text-lg mb-6 text-white">Feel free to reach out!</p>
       <a
         href="mailto:your.email@example.com"
         class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
@@ -56,4 +35,4 @@ const projects = [
       </a>
     </div>
   </section>
-</MainLayout>
+</Layout>

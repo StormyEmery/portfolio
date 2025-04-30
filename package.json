@@ -9,7 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.7.9"
+    "astro": "^5.7.9",
+    "react-router-dom": "^7.5.3"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^6.0.2",
