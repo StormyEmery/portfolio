@@ -2,8 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import projects from '../data/projects.js';
+
+// Split projects: Prize Kingdoms as featured, others in the grid
+const featuredProject = projects.find((project) => project.id === "prize-kingdoms");
+const otherProjects = projects.filter((project) => project.id !== "prize-kingdoms");
 ---
 
 <Layout title="Stormy Emery - Portfolio">
@@ -13,11 +18,20 @@ import projects from '../data/projects.js';
     tagline="Software Engineer & Unity Game Developer"
     bio="With nearly a decade of Unity expertise, I craft mobile games from concept to live updates, specializing in feature development, performance optimization, and cross-team collaboration. Adaptable and detail-oriented, I’m passionate about driving gaming innovation."
   />
-  <section id="projects" class="py-16 pt-24 bg-gray-900 min-h-screen">
+  <section id="projects" class="py-16 pt-24 bg-gray-900">
     <div class="container mx-auto px-4">
       <h2 class="text-4xl font-bold text-center mb-12 text-white">My Projects</h2>
+      
+      <!-- Featured Project (Prize Kingdoms) -->
+      {featuredProject && (
+        <div class="mb-16">
+          <FeaturedProjectCard project={featuredProject} />
+        </div>
+      )}
+
+      <!-- Grid of Other Projects -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
+        {otherProjects.map((project) => (
           <ProjectCard project={project} />
         ))}
       </div>

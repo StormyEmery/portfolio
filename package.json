@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "astro": "^5.7.9",
+    "prismjs": "^1.30.0",
     "react-router-dom": "^7.5.3"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^6.0.2",
+    "@types/prismjs": "^1.26.5",
     "tailwindcss": "^3.4.17"
   }
 }

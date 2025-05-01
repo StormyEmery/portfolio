@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import projects from '../../data/projects.js';
+
+// Define getStaticPaths to generate dynamic routes
+export function getStaticPaths() {
+  // Exclude Prize Kingdoms since it has a dedicated page
+  const projectPaths = projects
+    .filter((project) => project.id !== "prize-kingdoms")
+    .map((project) => ({
+      params: { id: project.id }
+    }));
+  return projectPaths;
+}
+
+// Get the project ID from the URL
+const { id } = Astro.params;
+
+// Find the project by ID
+const project = projects.find((p) => p.id === id);
+
+if (!project) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={`${project.title} - Stormy Emery`}>
+  <section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h1 class="text-5xl font-bold text-center mb-8 text-white">{project.title}</h1>
+      <p class="text-lg text-center max-w-prose mx-auto mb-12 text-gray-300">
+        {project.description}
+      </p>
+
+      <!-- Project Details -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold mb-6 text-white">Details</h2>
+        <p class="text-lg text-gray-300 mb-4">
+          {project.description}
+        </p>
+        <p class="text-lg text-gray-300">
+          <strong>Tech Stack:</strong> {project.tech.join(", ")}
+        </p>
+      </div>
+
+      <!-- Project Image -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold mb-6 text-white">Screenshot</h2>
+        <img
+          src={project.image}
+          alt={`${project.title} Screenshot`}
+          class="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
+        />
+      </div>
+
+      <!-- Back to Projects Link -->
+      <div class="text-center">
+        <a
+          href="/#projects"
+          class="inline-block bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 hover:scale-105 transition-transform duration-300"
+        >
+          Back to Projects
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

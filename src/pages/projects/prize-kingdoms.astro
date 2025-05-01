@@ -1,0 +1,174 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { ftueServiceCode, ftueScreenControllerCode, ftueScreenCode } from '../../data/ftue-snippets.js';
+---
+
+<Layout title="Prize Kingdoms - Stormy Emery">
+  <section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <!-- Back to Projects Link (Top) -->
+      <div class="text-left mb-4">
+        <a
+          href="/#projects"
+          class="inline-block text-blue-400 hover:underline text-lg font-semibold"
+        >
+          ← Back to Projects
+        </a>
+      </div>
+      <h1 class="text-5xl font-bold text-center mb-8 text-white">Prize Kingdoms</h1>
+      <p class="text-lg text-center max-w-prose mx-auto mb-12 text-gray-300">
+        Prize Kingdoms is a mobile game I worked on while at INK Games where I focused on full-stack feature development, performance optimizations, and cross-team collaboration. Below, I’ll dive into the details of one of the key features I developed, the first time user experience (FTUE).
+      </p>
+
+      <!-- Overview Section -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold mb-6 text-white">First Time User Experience Overview</h2>
+        <p class="text-lg text-gray-300 mb-4">
+          The First Time User Experience (FTUE) is crucial for engaging new players. I designed and implemented a comprehensive FTUE system that guides users through the game mechanics, ensuring they understand how to build their kingdoms and participate in challenges. 
+          In Prize Kingdoms, the FTUE consists of sequences of steps that the player must complete to progress through the game. Each sequence is triggered by some in game event that the player performs.
+        </p>
+      </div>
+
+      <!-- Diagrams Section -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold mb-6 text-white">FTUE Server Architecture</h2>
+        <p class="text-lg text-gray-300 mb-4">
+          These diagrams illustrate the API and server architecture I designed for the first time user experience.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white rounded-lg p-4 shadow-lg">
+            <img
+              src="/images/ftue_api.png"
+              alt="Prize Kingdoms API Diagram"
+              class="w-full h-auto rounded-lg"
+            />
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow-lg">
+            <img
+              src="/images/ftue_server.png"
+              alt="Prize Kingdoms Server Diagram"
+              class="w-full h-auto rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Client Data Section -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold mb-6 text-white">Client FTUE Data</h2>
+        <p class="text-lg text-gray-300 mb-4">
+          The FTUE sequences are defined on the client and are represented by scriptable objects. Each sequence is a scriptable object that contains references to a trigger scriptable object and a list of step scriptable objects. 
+          The sequence scriptable object is pretty straightforward, but the trigger and step scriptable objects required custom editor code. 
+          I needed to be able to have a generic list of variables that could be any defined type I needed. Below you will find a couple of screenshots as well as a gif to demostrate the various data objects.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <img
+            src="/images/ftue_sequence_data.png"
+            alt="Prize Kingdoms Sequence Scriptable Object"
+            class="w-full rounded-lg shadow-lg"
+          />
+          <img
+            src="/images/ftue_trigger_data.png"
+            alt="Prize Kingdoms Trigger Scriptable Object"
+            class="w-full rounded-lg shadow-lg"
+          />
+          <img
+            src="/images/ftue_step_data.png"
+            alt="Prize Kingdoms Step Scriptable Object"
+            class="w-full rounded-lg shadow-lg"
+          />
+          <img
+            src="/images/ftue_so.gif"
+            alt="Prize Kingdoms Generic Variable List Demo"
+            class="w-full rounded-lg shadow-lg"
+          />
+        </div>
+      </div>
+
+      <!-- Client Implementation Section -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold mb-6 text-white">Client Implementation</h2>
+        <p class="text-lg text-gray-300 mb-4">
+          The FTUE runs inside of an Update loop inside of a pure .NET class, `FtueService`. It takes the next available sequence (if there is one) and awaits on the specified UniTaskCompletionSource to be completed. 
+          Once it is, the sequence commences and the steps (tasks) are ran. The visuals of the FTUE are implemented using MVC principles where there's a screen controller that builds and runs sub-tasks, that based off a data model, makes changes to the view (prefab). 
+          The view scripts are very minimal and just have accessors to needed properties.
+        </p>
+        <div class="space-y-8">
+          <!-- FTUE Flow Diagram (Full Width) -->
+          <div class="bg-white rounded-lg p-4 shadow-lg max-w-2xl mx-auto">
+            <img
+              src="/images/ftue_flow.png"
+              alt="Prize Kingdoms FTUE Flow Diagram"
+              class="w-full h-auto rounded-lg"
+            />
+          </div>
+          <!-- Code Snippets in a 2-Column Grid -->
+          <div class="space-y-8">
+            <!-- First Row: FtueService and Screen Controller -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- FtueService Class -->
+              <div class="min-w-0 min-h-[300px]">
+                <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm shadow-lg"><code class="language-csharp">{ftueServiceCode}</code></pre>
+              </div>
+              <!-- Screen Controller -->
+              <div class="min-w-0 min-h-[300px]">
+                <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm shadow-lg"><code class="language-csharp">{ftueScreenControllerCode}</code></pre>
+              </div>
+            </div>
+            <!-- Second Row: Screen View (Centered) -->
+            <div class="md:flex md:justify-center">
+              <div class="rounded-lg shadow-lg min-w-0">
+                <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm"><code class="language-csharp">{ftueScreenCode}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Section -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold mb-6 text-white">FTUE Demo</h2>
+        <p class="text-lg text-gray-300 mb-4">
+          This video provides a small snippet of the FTUE in action. It showcases the various steps and how they are triggered by player actions.
+        </p>
+        <div class="relative w-full max-w-4xl mx-auto rounded-lg shadow-lg overflow-hidden">
+          <video controls class="w-full max-h-[1000px] object-contain">
+            <source src="/videos/ftue.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+      <!-- Back to Projects Link -->
+      <div class="text-center">
+        <a
+          href="/#projects"
+          class="inline-block bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 hover:scale-105 transition-transform duration-300"
+        >
+          Back to Projects
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Script to Apply Prism.js Highlighting -->
+  <script>
+    // Function to apply Prism.js highlighting
+    function applyPrismHighlighting() {
+      if (typeof Prism !== "undefined") {
+        Prism.highlightAll();
+        console.log("Prism.js highlighting applied successfully.");
+      } else {
+        console.warn("Prism.js not loaded yet, retrying in 500ms...");
+        setTimeout(applyPrismHighlighting, 500);
+      }
+    }
+
+    // Run highlighting after DOM is loaded
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      applyPrismHighlighting();
+    } else {
+      document.addEventListener("DOMContentLoaded", applyPrismHighlighting);
+    }
+  </script>
+</Layout>
