@@ -166,7 +166,7 @@ const codeSnippetImages = [
           This video provides a small snippet of the FTUE in action. It showcases the various steps and how they are triggered by player actions.
         </p>
         <div class="relative w-full max-w-4xl mx-auto rounded-lg shadow-lg overflow-hidden">
-          <video controls class="w-full max-h-[1000px] object-contain">
+          <video id="ftue-demo-video" controls class="w-full max-h-[1000px] object-contain" preload="metadata">
             <source src="/videos/ftue.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -191,7 +191,7 @@ const codeSnippetImages = [
     <img id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg" src="" alt="Enlarged view" />
   </div>
 
-  <!-- Initialize Swiper Carousels and Lightbox -->
+  <!-- Initialize Swiper Carousels, Lightbox, and Video -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       // FTUE Data Carousel
@@ -299,6 +299,12 @@ const codeSnippetImages = [
           }
         });
       }
+
+      // Force video metadata load to display first frame
+      const video = document.getElementById("ftue-demo-video") as HTMLVideoElement;
+      if (video) {
+        video.load();
+      }
     });
   </script>
 
@@ -361,5 +367,6 @@ const codeSnippetImages = [
       background: #3b82f6; /* Tailwind's blue-400 */
       opacity: 1;
     }
+
   </style>
 </Layout>
