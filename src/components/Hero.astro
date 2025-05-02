@@ -13,7 +13,6 @@ const carouselSkills = [...skills, ...skills];
   <!-- Static Gradient Background -->
   <div class="absolute inset-0 bg-gradient-to-b from-gray-800 to-gray-900"></div>
   <!-- Full-Width Background Image -->
-  <!-- <div class="absolute inset-0 bg-[url('/images/bg.jpg')] bg-cover bg-center opacity-10 z-0"></div> -->
   <div class="absolute inset-0 bg-[url('/images/bg.jpg')] bg-cover bg-center opacity-10 z-0">
     <div class="absolute inset-0 bg-gray-900/50"></div>
   </div>
@@ -32,8 +31,8 @@ const carouselSkills = [...skills, ...skills];
         When I’m not coding, I’m an avid gamer, sticking mostly to RPGs and their many varieties. Lately I've been more into ARPGs like Path of Exile and Diablo, but I've also been steadily playing World of Warcraft, even though I've been trying to get away from it for over 15 years now.
       </p>
     </div>
-    <div class="relative max-w-4xl mx-auto mb-12">
-      <div class="overflow-hidden">
+    <div class="relative max-w-full mx-auto mb-12 px-4">
+      <div class="overflow-hidden bg-gray-800/50 rounded-lg shadow-lg py-2">
         <div class="flex animate-ticker">
           <div class="flex shrink-0">
             {carouselSkills.map((skill, index) => (
@@ -60,7 +59,7 @@ const carouselSkills = [...skills, ...skills];
       </span>
     </a>
     <!-- Scroll-Down Indicator -->
-    <a id="scroll-to-projects" href="#projects" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20" aria-label="Scroll to projects">
+    <a id="scroll-to-projects" href="#projects" class="hidden md:block absolute bottom-2 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20" aria-label="Scroll to projects">
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
       </svg>
