@@ -12,8 +12,13 @@ const carouselSkills = [...skills, ...skills];
 <section class="min-h-screen flex items-center relative overflow-hidden bg-gray-900 pt-16 md:pt-0">
   <!-- Static Gradient Background -->
   <div class="absolute inset-0 bg-gradient-to-b from-gray-800 to-gray-900"></div>
+  <!-- Full-Width Background Image -->
+  <!-- <div class="absolute inset-0 bg-[url('/images/bg.jpg')] bg-cover bg-center opacity-10 z-0"></div> -->
+  <div class="absolute inset-0 bg-[url('/images/bg.jpg')] bg-cover bg-center opacity-10 z-0">
+    <div class="absolute inset-0 bg-gray-900/50"></div>
+  </div>
 
-  <div class="container mx-auto text-center px-4 relative z-10">
+  <div class="container max-w-screen-xl mx-auto text-center px-4 relative z-10">
     <img
       src="/images/headshot.jpg"
       alt={name}
@@ -21,8 +26,13 @@ const carouselSkills = [...skills, ...skills];
     />
     <h1 class="text-6xl font-bold mb-6 text-white drop-shadow-lg tracking-tight">{name}</h1>
     <p class="text-2xl mb-8 text-white font-medium">{tagline}</p>
-    <p class="text-lg max-w-prose mx-auto mb-12 text-gray-300 leading-relaxed">{bio}</p>
-    <div class="relative max-w-3xl mx-auto mb-12">
+    <div class="max-w-4xl mx-auto mb-12 text-gray-300 leading-relaxed space-y-4">
+      <p class="text-lg">{bio}</p>
+      <p class="text-lg">
+        When I’m not coding, I’m an avid gamer, sticking mostly to RPGs and their many varieties. Lately I've been more into ARPGs like Path of Exile and Diablo, but I've also been steadily playing World of Warcraft, even though I've been trying to get away from it for over 15 years now.
+      </p>
+    </div>
+    <div class="relative max-w-4xl mx-auto mb-12">
       <div class="overflow-hidden">
         <div class="flex animate-ticker">
           <div class="flex shrink-0">
@@ -38,8 +48,9 @@ const carouselSkills = [...skills, ...skills];
       </div>
     </div>
     <a
+      id="scroll-to-contact"
       href="#contact"
-      class="inline-block bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 hover:scale-105 transition-transform duration-300 animate-pulse relative overflow-hidden group mb-32"
+      class="inline-block bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 hover:scale-105 transition-transform duration-300 animate-pulse relative overflow-hidden group mb-16"
     >
       <span class="relative z-10 flex items-center gap-2">
         Get in Touch
@@ -49,7 +60,7 @@ const carouselSkills = [...skills, ...skills];
       </span>
     </a>
     <!-- Scroll-Down Indicator -->
-    <a id="scroll-to-projects" href="#projects" class="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20" aria-label="Scroll to projects">
+    <a id="scroll-to-projects" href="#projects" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-20" aria-label="Scroll to projects">
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
       </svg>
@@ -94,37 +105,42 @@ const carouselSkills = [...skills, ...skills];
 <script>
   // Ensure script runs only in browser
   if (typeof window !== "undefined") {
-    const scrollButton = document.getElementById("scroll-to-projects");
-    if (scrollButton) {
-      scrollButton.addEventListener("click", (e) => {
+    // Smooth scrolling for "Scroll to Projects" button
+    const scrollToProjectsButton = document.getElementById("scroll-to-projects");
+    if (scrollToProjectsButton) {
+      scrollToProjectsButton.addEventListener("click", (e) => {
         e.preventDefault();
-        console.log("Scroll button clicked");
         const projectsSection = document.getElementById("projects");
         if (projectsSection) {
-          console.log("Projects section found");
           const sectionTop = projectsSection.getBoundingClientRect().top + window.scrollY;
-          console.log("Attempting scroll to:", sectionTop);
-          // Delay scroll to ensure DOM readiness
-          setTimeout(() => {
-            window.scrollTo({
-              top: sectionTop,
-              behavior: "smooth"
-            });
-            // Update the URL hash and manually dispatch hashchange
-            window.history.replaceState(null, "", "#projects");
-            const event = new Event("hashchange");
-            window.dispatchEvent(event);
-            console.log("Hash updated to:", window.location.hash);
-            console.log("Hashchange event dispatched");
-            console.log("Viewport height:", window.innerHeight);
-            console.log("Projects top:", sectionTop);
-            // Delay log to capture final scroll position
-            setTimeout(() => {
-              console.log("Scrolled to:", window.scrollY);
-            }, 1000);
-          }, 100);
-        } else {
-          console.log("Projects section not found");
+          window.scrollTo({
+            top: sectionTop,
+            behavior: "smooth"
+          });
+          // Update the URL hash and dispatch hashchange event
+          window.history.replaceState(null, "", "#projects");
+          const event = new Event("hashchange");
+          window.dispatchEvent(event);
+        }
+      });
+    }
+
+    // Smooth scrolling for "Get in Touch" button
+    const scrollToContactButton = document.getElementById("scroll-to-contact");
+    if (scrollToContactButton) {
+      scrollToContactButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const contactSection = document.getElementById("contact");
+        if (contactSection) {
+          const sectionTop = contactSection.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: sectionTop,
+            behavior: "smooth"
+          });
+          // Update the URL hash and dispatch hashchange event
+          window.history.replaceState(null, "", "#contact");
+          const event = new Event("hashchange");
+          window.dispatchEvent(event);
         }
       });
     }
