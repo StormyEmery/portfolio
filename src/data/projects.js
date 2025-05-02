@@ -3,13 +3,13 @@ export default [
     id: "prize-kingdoms",
     title: "Prize Kingdoms",
     description: "A strategy-based mobile game where players build kingdoms, battle against other players, and win prizes! I was a full-stack engineer on this project and a lead on every feature I worked on.",
-    image: "/images/pk_4x3.PNG",
+    details: "",
+    thumbnail: "/images/pk_4x3.PNG",
+    images: [],
+    videos: [],
     tech: ["Unity", "C#", ".NET", "MongoDB", "Sentry", "Firebase", "UniTask"],
     link: "/projects/prize-kingdoms",
-    externalLinks: [
-      { type: "ios", url: "https://apps.apple.com/us/app/prize-kingdoms/id1554511237" },
-      { type: "google", url: "https://play.google.com/store/apps/details?id=com.inkgames.prizekingdoms&hl=en_US" }
-    ]
+    externalLinks: []
   },
   {
     id: "monopoly-slots",

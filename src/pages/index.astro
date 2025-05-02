@@ -1,14 +1,18 @@
 ---
+// filepath: /home/storm121220/portfolio/src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import Contact from '../components/Contact.astro';
 import projects from '../data/projects.js';
 
 // Split projects: Prize Kingdoms as featured, others in the grid
-const featuredProject = projects.find((project) => project.id === "prize-kingdoms");
-const otherProjects = projects.filter((project) => project.id !== "prize-kingdoms");
+const featuredProject = projects.find((project) => project.id === "prize-kingdoms") ?? null; // Default to null if not found
+const otherProjects = Array.isArray(projects)
+  ? projects.filter((project) => project.id !== "prize-kingdoms")
+  : []; // Default to an empty array if projects is not an array
 ---
 
 <Layout title="Stormy Emery - Portfolio">
@@ -18,7 +22,7 @@ const otherProjects = projects.filter((project) => project.id !== "prize-kingdom
     tagline="Software Engineer & Unity Game Developer"
     bio="With nearly a decade of Unity expertise, I craft mobile games from concept to live updates, specializing in feature development, performance optimization, and cross-team collaboration. Adaptable and detail-oriented, I’m passionate about driving gaming innovation."
   />
-  <section id="projects" class="py-16 pt-24 bg-gray-900">
+  <section id="projects" class="py-16 pt-24 bg-gradient-to-b from-gray-900 to-gray-800">
     <div class="container mx-auto px-4">
       <h2 class="text-4xl font-bold text-center mb-12 text-white">My Projects</h2>
       
@@ -37,16 +41,5 @@ const otherProjects = projects.filter((project) => project.id !== "prize-kingdom
       </div>
     </div>
   </section>
-  <section id="contact" class="py-16 bg-gray-900">
-    <div class="container mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-8 text-white">Contact Me</h2>
-      <p class="text-lg mb-6 text-white">Feel free to reach out!</p>
-      <a
-        href="mailto:your.email@example.com"
-        class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
-      >
-        Email Me
-      </a>
-    </div>
-  </section>
+  <Contact />
 </Layout>

@@ -1,0 +1,167 @@
+---
+---
+
+<section id="contact" class="py-16 bg-gradient-to-b from-gray-800 to-gray-750">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold mb-8 text-white">Get in Touch</h2>
+      <p class="text-lg max-w-prose mx-auto mb-6 text-gray-300">
+        Let’s collaborate on your next game! Whether you have a project in mind or just want to chat about game development, I’d love to hear from you.
+      </p>
+      <div class="max-w-lg mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
+        <!-- Contact Form -->
+        <form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-6">
+          <!-- Hidden field for Netlify Forms -->
+          <input type="hidden" name="form-name" value="contact" />
+          <!-- Honeypot field to prevent spam -->
+          <div class="hidden">
+            <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+          </div>
+          <!-- Form Fields -->
+          <div>
+            <label for="name" class="block text-gray-300 mb-2">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-400"
+              placeholder="Your name"
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-gray-300 mb-2">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-400"
+              placeholder="Your email"
+            />
+          </div>
+          <div>
+            <label for="message" class="block text-gray-300 mb-2">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="4"
+              class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-400"
+              placeholder="Your message"
+            ></textarea>
+          </div>
+          <div id="form-message" class="hidden text-center text-lg flex items-center justify-center gap-2">
+            <svg id="loading-spinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span id="form-text"></span>
+          </div>
+          <div class="text-center">
+            <button
+              type="submit"
+              class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-transform duration-300"
+            >
+              Send Message
+            </button>
+          </div>
+        </form>
+        <!-- Direct Email Link -->
+        <p class="text-center text-gray-300 mt-6">
+          Or email me directly at <a href="mailto:stormyemery12@gmail.com" class="text-blue-400 hover:underline">stormyemery12@gmail.com</a>
+        </p>
+        <!-- Social Links -->
+        <div class="flex justify-center space-x-6 mt-6">
+          <a
+            href="https://github.com/StormyEmery"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-400 hover:text-white transition-colors duration-300"
+            aria-label="GitHub Profile"
+          >
+            <i class="fab fa-github fa-2x"></i>
+          </a>
+          <a
+            href="https://linkedin.com/in/stormy-emery"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-400 hover:text-white transition-colors duration-300"
+            aria-label="LinkedIn Profile"
+          >
+            <i class="fab fa-linkedin fa-2x"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <style>
+    #form-message {
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+    }
+    #form-message.text-green-400 {
+      background-color: rgba(16, 185, 129, 0.1); /* Green-500 with opacity */
+    }
+    #form-message.text-red-400 {
+      background-color: rgba(248, 113, 113, 0.1); /* Red-400 with opacity */
+    }
+  </style>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("contact-form");
+      const formMessage = document.getElementById("form-message");
+      const formText = document.getElementById("form-text");
+      const loadingSpinner = document.getElementById("loading-spinner");
+  
+      if (!form) return; // Exit if the form is not found
+  
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Prevent default form submission
+  
+        // Show loading state
+        formMessage?.classList.remove("hidden", "text-red-400", "text-green-400");
+        formMessage?.classList.add("text-gray-300");
+        loadingSpinner?.classList.remove("hidden");
+        if (formText) formText.textContent = "Sending your message...";
+  
+        try {
+          // Submit the form data to Netlify
+          const formData = new FormData(form as HTMLFormElement);
+          const response = await fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(
+              Array.from(formData.entries()).map(([key, value]) => [key, value.toString()])
+            ).toString(),
+          });
+  
+          if (response.ok) {
+            // Success message
+            formMessage?.classList.remove("text-gray-300", "text-red-400");
+            formMessage?.classList.add("text-green-400");
+            loadingSpinner?.classList.add("hidden");
+            if (formText) formText.textContent = "Thank you! Your message has been sent.";
+            (form as HTMLFormElement).reset(); // Clear the form fields
+            // Hide message after 5 seconds
+            setTimeout(() => {
+              formMessage?.classList.add("hidden");
+            }, 10000);
+          } else {
+            throw new Error("Form submission failed");
+          }
+        } catch (error) {
+          // Error message
+          formMessage?.classList.remove("text-gray-300", "text-green-400");
+          formMessage?.classList.add("text-red-400");
+          loadingSpinner?.classList.add("hidden");
+          if (formText) formText.textContent = "Something went wrong. Please try again.";
+          // Hide message after 5 seconds
+          setTimeout(() => {
+            formMessage?.classList.add("hidden");
+          }, 5000);
+        }
+      });
+    });
+  </script>

@@ -3,9 +3,11 @@ interface Project {
   id: string;
   title: string;
   description: string;
-  image: string;
+  thumbnail: string;
+  images: string[];
   tech: string[];
   link: string | null;
+  externalLinks?: { type: string; url: string }[];
 }
 
 interface Props {
@@ -19,7 +21,7 @@ const { project } = Astro.props;
   <a href={project.link} class="block">
     <div class="max-w-3xl mx-auto aspect-[4/3] bg-gray-700 rounded-lg p-4 mb-6">
       <img
-        src={project.image}
+        src={project.thumbnail}
         alt={`${project.title} Thumbnail`}
         class="w-full h-full object-contain"
       />
