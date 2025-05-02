@@ -22,6 +22,9 @@ const project = projects.find((p) => p.id === id);
 if (!project) {
   return Astro.redirect('/404');
 }
+
+// Determine the number of videos for iteration in the script
+const videoCount = project.videos ? project.videos.length : 0;
 ---
 
 <Layout title={`${project.title} - Stormy Emery`}>
@@ -90,8 +93,8 @@ if (!project) {
                     ))}
                   </div>
                   <!-- Navigation Buttons -->
-                  <div class="swiper-button-prev"></div>
-                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev hidden md:block"></div>
+                  <div class="swiper-button-next hidden md:block"></div>
                   <!-- Pagination Dots -->
                   <div class="swiper-pagination"></div>
                 </div>
@@ -119,9 +122,9 @@ if (!project) {
           <!-- Videos -->
           {project.videos && project.videos.length > 0 && (
             <div class={`grid ${project.videos.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'} gap-8`}>
-              {project.videos.map((video) => (
-                <div class="relative w-full max-w-4xl mx-auto rounded-lg shadow-lg overflow-hidden">
-                  <video controls class="w-full max-h-[600px] object-contain">
+              {project.videos.map((video, index) => (
+                <div class="relative w-full max-w-6xl mx-auto rounded-lg shadow-lg overflow-hidden">
+                  <video id={`project-video-${index}`} controls class="w-full max-h-[600px] object-contain" preload="metadata">
                     <source src={video} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
@@ -146,11 +149,11 @@ if (!project) {
 
   <!-- Lightbox Modal -->
   <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
-    <span id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl cursor-pointer">&times;</span>
+    <span id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl cursor-pointer">×</span>
     <img id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg" src="" alt="Enlarged view" />
   </div>
 
-  <!-- Initialize Swiper Carousel and Lightbox (only if needed) -->
+  <!-- Initialize Swiper Carousel, Lightbox, and Videos (only if needed) -->
   {project.images && project.images.length >= 3 && (
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -160,12 +163,30 @@ if (!project) {
           grabCursor: true,
           centeredSlides: true,
           slidesPerView: "auto",
+          spaceBetween: 0,
           coverflowEffect: {
             rotate: 50,
             stretch: 0,
             depth: 100,
             modifier: 1,
             slideShadows: true,
+          },
+          speed: 300,
+          threshold: 10,
+          loop: false,
+          breakpoints: {
+            0: { // Mobile (below 768px)
+              effect: "slide",
+              slidesPerView: 1,
+              spaceBetween: 20,
+              loop: false,
+            },
+            768: { // Desktop (768px and above)
+              effect: "coverflow",
+              slidesPerView: "auto",
+              spaceBetween: 0,
+              loop: true,
+            },
           },
           navigation: {
             nextEl: ".swiper-button-prev",
@@ -174,8 +195,8 @@ if (!project) {
           pagination: {
             el: ".swiper-pagination",
             clickable: true,
+            type: "bullets",
           },
-          loop: true,
         });
 
         // Lightbox functionality
@@ -210,6 +231,15 @@ if (!project) {
             }
           });
         }
+
+        // Force video metadata load to display first frame
+        const videoCount = document.querySelectorAll('video').length;
+        for (let index = 0; index < videoCount; index++) {
+          const video = document.getElementById(`project-video-${index}`) as HTMLVideoElement;
+          if (video) {
+            video.load();
+          }
+        }
       });
     </script>
   )}
@@ -222,7 +252,7 @@ if (!project) {
       position: relative;
     }
     .swiper-slide {
-      width: 800px;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -230,6 +260,8 @@ if (!project) {
     .swiper-button-prev,
     .swiper-button-next {
       color: #3b82f6; /* Tailwind's blue-400 */
+      width: 44px;
+      height: 44px;
     }
     .swiper-button-prev:hover,
     .swiper-button-next:hover {
@@ -249,10 +281,17 @@ if (!project) {
     .swiper-pagination-bullet {
       background: #d1d5db; /* Tailwind's gray-300 */
       opacity: 0.7;
+      width: 10px;
+      height: 10px;
+      margin: 0 4px;
     }
     .swiper-pagination-bullet-active {
       background: #3b82f6; /* Tailwind's blue-400 */
       opacity: 1;
+    }
+    /* Fallback background for videos */
+    video {
+      background-color: #1f2937; /* Tailwind's gray-800 */
     }
   </style>
 </Layout>
