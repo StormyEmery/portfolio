@@ -3,7 +3,8 @@ interface Project {
   id: string;
   title: string;
   description: string;
-  image: string;
+  thumbnail: string;
+  image: string[];
   tech: string[];
   link: string | null;
   externalLinks?: { type: string; url: string }[];
@@ -16,22 +17,24 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<div class="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+<div class="bg-gray-800 rounded-lg shadow-lg p-6 pb-10 hover:shadow-xl transition-shadow duration-300 flex flex-col min-h-full">
   {project.link ? (
-    <a href={project.link} class="block">
-      <img
-        src={project.image}
-        alt={`${project.title} Thumbnail`}
-        class="w-full h-48 object-cover rounded-lg mb-4"
-      />
-      <h3 class="text-2xl font-bold mb-2 text-white">{project.title}</h3>
-      <p class="text-gray-300 mb-4">{project.description}</p>
-      <div class="flex flex-wrap gap-2 mb-4">
-        {project.tech.map((tech) => (
-          <span class="bg-gray-700 text-blue-400 px-3 py-1 rounded-full text-sm">{tech}</span>
-        ))}
+    <a href={project.link} class="block flex flex-col min-h-full">
+      <div class="flex-grow">
+        <img
+          src={project.thumbnail}
+          alt={`${project.title} Thumbnail`}
+          class="w-full h-48 object-contain rounded-lg mb-4"
+        />
+        <h3 class="text-2xl font-bold mb-2 text-white">{project.title}</h3>
+        <p class="text-gray-300 mb-4">{project.description}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          {project.tech.map((tech) => (
+            <span class="bg-gray-700 text-blue-400 px-3 py-1 rounded-full text-sm">{tech}</span>
+          ))}
+        </div>
       </div>
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center mt-auto">
         <span class="inline-block text-blue-400 hover:underline text-lg font-semibold">View Details →</span>
         <!-- External Links -->
         {project.externalLinks && project.externalLinks.length > 0 && (
@@ -55,22 +58,24 @@ const { project } = Astro.props;
       </div>
     </a>
   ) : (
-    <div>
-      <img
-        src={project.image}
-        alt={`${project.title} Thumbnail`}
-        class="w-full h-48 object-cover rounded-lg mb-4"
-      />
-      <h3 class="text-2xl font-bold mb-2 text-white">{project.title}</h3>
-      <p class="text-gray-300 mb-4">{project.description}</p>
-      <div class="flex flex-wrap gap-2 mb-4">
-        {project.tech.map((tech) => (
-          <span class="bg-gray-700 text-blue-400 px-3 py-1 rounded-full text-sm">{tech}</span>
-        ))}
+    <div class="flex flex-col min-h-full">
+      <div class="flex-grow">
+        <img
+          src={project.thumbnail}
+          alt={`${project.title} Thumbnail`}
+          class="w-full h-48 object-contain rounded-lg mb-4"
+        />
+        <h3 class="text-2xl font-bold mb-2 text-white">{project.title}</h3>
+        <p class="text-gray-300 mb-4">{project.description}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          {project.tech.map((tech) => (
+            <span class="bg-gray-700 text-blue-400 px-3 py-1 rounded-full text-sm">{tech}</span>
+          ))}
+        </div>
       </div>
       <!-- External Links for Projects Without Details Page -->
       {project.externalLinks && project.externalLinks.length > 0 && (
-        <div class="flex space-x-4">
+        <div class="flex space-x-4 mt-auto">
           {project.externalLinks.map((externalLink) => (
             <a
               href={externalLink.url}

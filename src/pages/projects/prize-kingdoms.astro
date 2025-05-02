@@ -105,7 +105,8 @@ const codeSnippets = [
                 <img
                   src={image}
                   alt={image.includes("ftue_sequence_data") ? "Prize Kingdoms Sequence Scriptable Object" : image.includes("ftue_trigger_data") ? "Prize Kingdoms Trigger Scriptable Object" : image.includes("ftue_step_data") ? "Prize Kingdoms Step Scriptable Object" : "Prize Kingdoms Generic Variable List Demo"}
-                  class="w-full rounded-lg shadow-lg"
+                  class="w-full rounded-lg shadow-lg cursor-pointer"
+                  data-lightbox-src={image}
                 />
               </div>
             ))}
@@ -135,7 +136,7 @@ const codeSnippets = [
               class="w-full h-auto rounded-lg"
             />
           </div>
-          <!-- Code Snippets in a Carousel -->
+          <!-- Code Snippets in a Slider -->
           <div class="swiper code-snippets-carousel">
             <div class="swiper-wrapper">
               {codeSnippets.map((snippet) => (
@@ -181,10 +182,16 @@ const codeSnippets = [
     </div>
   </section>
 
-  <!-- Initialize Swiper Carousels -->
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+    <span id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl cursor-pointer">×</span>
+    <img id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg" src="" alt="Enlarged view" />
+  </div>
+
+  <!-- Initialize Swiper Carousels and Lightbox -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // FTUE Data Carousel (Images)
+      // FTUE Data Carousel
       new Swiper(".ftue-data-carousel", {
         effect: "coverflow",
         grabCursor: true,
@@ -208,7 +215,7 @@ const codeSnippets = [
         loop: true,
       });
 
-      // Code Snippets Carousel
+      // Code Snippets Slider
       new Swiper(".code-snippets-carousel", {
         effect: "slide",
         grabCursor: true,
@@ -225,6 +232,41 @@ const codeSnippets = [
         },
         loop: true,
       });
+
+      // Lightbox functionality
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement;
+      const lightboxClose = document.getElementById("lightbox-close");
+      const images = document.querySelectorAll("[data-lightbox-src]");
+
+      images.forEach((image) => {
+        image.addEventListener("click", () => {
+          if (lightboxImage) {
+            if (lightboxImage) {
+              lightboxImage.src = image.getAttribute("data-lightbox-src") || "";
+            }
+          }
+          if (lightbox) {
+            lightbox.classList.remove("hidden");
+          }
+        });
+      });
+
+      if (lightboxClose) {
+        lightboxClose.addEventListener("click", () => {
+          if (lightbox) {
+            lightbox.classList.add("hidden");
+          }
+        });
+      }
+
+      if (lightbox) {
+        lightbox.addEventListener("click", (e) => {
+          if (e.target === lightbox) {
+            lightbox.classList.add("hidden");
+          }
+        });
+      }
     });
   </script>
 
@@ -233,7 +275,6 @@ const codeSnippets = [
     .swiper {
       width: 100%;
       padding: 20px 0;
-      position: relative;
     }
     .swiper-slide {
       width: 600px;
@@ -253,19 +294,19 @@ const codeSnippets = [
     .code-snippets-carousel .swiper-slide {
       width: 800px;
     }
-    /* Style pagination dots */
+    /* Ensure pagination dots are below content */
+    .ftue-data-carousel {
+      padding-bottom: 60px;
+    }
+    .code-snippets-carousel {
+      padding-bottom: 60px;
+    }
     .swiper-pagination {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
       text-align: center;
-    }
-    .ftue-data-carousel {
-      padding-bottom: 60px;
-    }
-    .code-snippets-carousel {
-      padding-bottom: 40px;
     }
     .swiper-pagination-bullet {
       background: #d1d5db; /* Tailwind's gray-300 */

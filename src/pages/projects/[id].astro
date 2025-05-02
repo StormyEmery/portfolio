@@ -62,17 +62,17 @@ if (!project) {
       <!-- Project Details -->
       <div class="mb-16">
         <h2 class="text-3xl font-bold mb-6 text-white">Details</h2>
-        <p class="text-lg text-gray-300 mb-4">{project.description}</p>
+        <p class="text-lg text-gray-300 mb-4">{project.details}</p>
         <p class="text-lg text-gray-300">
           <strong>Tech Stack:</strong> {project.tech.join(", ")}
         </p>
       </div>
 
       <!-- Media Section -->
-      {((project.images && project.images.length > 0) || (project.videos && project.videos.length > 0)) && (
+      {((project.images?.length ?? 0) > 0 || (project.videos?.length ?? 0) > 0) && (
         <div class="mb-16">
           <h2 class="text-3xl font-bold mb-6 text-white">Media</h2>
-          <!-- Images: Carousel if 3 or more, Grid if fewer -->
+          <!-- Images: Carousel if 3 or more, Flex for 1, Grid for 2 -->
           {project.images && project.images.length > 0 && (
             <>
               {project.images.length >= 3 ? (
@@ -83,7 +83,8 @@ if (!project) {
                         <img
                           src={image}
                           alt={`${project.title} Screenshot`}
-                          class="w-full max-w-3xl mx-auto rounded-lg shadow-lg object-contain"
+                          class="w-full rounded-lg shadow-lg object-contain cursor-pointer"
+                          data-lightbox-src={image}
                         />
                       </div>
                     ))}
@@ -91,14 +92,24 @@ if (!project) {
                   <!-- Navigation Buttons -->
                   <div class="swiper-button-prev"></div>
                   <div class="swiper-button-next"></div>
+                  <!-- Pagination Dots -->
+                  <div class="swiper-pagination"></div>
+                </div>
+              ) : project.images.length === 1 ? (
+                <div class="flex justify-center mb-8">
+                  <img
+                    src={project.images[0]}
+                    alt={`${project.title} Screenshot`}
+                    class="max-w-lg mx-auto rounded-lg shadow-lg"
+                  />
                 </div>
               ) : (
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 flex justify-center text-center">
                   {project.images.map((image) => (
                     <img
                       src={image}
                       alt={`${project.title} Screenshot`}
-                      class="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
+                      class="max-w-3xl mx-auto rounded-lg shadow-lg"
                     />
                   ))}
                 </div>
@@ -107,10 +118,10 @@ if (!project) {
           )}
           <!-- Videos -->
           {project.videos && project.videos.length > 0 && (
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class={`grid ${project.videos.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'} gap-8`}>
               {project.videos.map((video) => (
-                <div class="relative w-full max-w-3xl mx-auto rounded-lg shadow-lg overflow-hidden">
-                  <video controls class="w-full max-h-[450px] object-contain">
+                <div class="relative w-full max-w-4xl mx-auto rounded-lg shadow-lg overflow-hidden">
+                  <video controls class="w-full max-h-[600px] object-contain">
                     <source src={video} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
@@ -133,10 +144,17 @@ if (!project) {
     </div>
   </section>
 
-  <!-- Initialize Swiper Carousel (only if needed) -->
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+    <span id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl cursor-pointer">&times;</span>
+    <img id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg" src="" alt="Enlarged view" />
+  </div>
+
+  <!-- Initialize Swiper Carousel and Lightbox (only if needed) -->
   {project.images && project.images.length >= 3 && (
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        // Initialize Swiper
         new Swiper(".project-carousel", {
           effect: "coverflow",
           grabCursor: true,
@@ -153,8 +171,45 @@ if (!project) {
             nextEl: ".swiper-button-prev",
             prevEl: ".swiper-button-next",
           },
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
           loop: true,
         });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImage = document.getElementById("lightbox-image");
+        const lightboxClose = document.getElementById("lightbox-close");
+        const images = document.querySelectorAll("[data-lightbox-src]");
+
+        images.forEach((image) => {
+          image.addEventListener("click", () => {
+            if (lightboxImage) {
+              (lightboxImage as HTMLImageElement).src = image.getAttribute("data-lightbox-src") || "";
+            }
+            if (lightbox) {
+              lightbox.classList.remove("hidden");
+            }
+          });
+        });
+
+        if (lightboxClose) {
+          lightboxClose.addEventListener("click", () => {
+            if (lightbox) {
+              lightbox.classList.add("hidden");
+            }
+          });
+        }
+
+        if (lightbox) {
+          lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) {
+              lightbox.classList.add("hidden");
+            }
+          });
+        }
       });
     </script>
   )}
@@ -164,9 +219,10 @@ if (!project) {
     .swiper {
       width: 100%;
       padding: 20px 0;
+      position: relative;
     }
     .swiper-slide {
-      width: 600px;
+      width: 800px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -178,6 +234,25 @@ if (!project) {
     .swiper-button-prev:hover,
     .swiper-button-next:hover {
       color: #ffffff; /* White on hover */
+    }
+    /* Style pagination dots */
+    .project-carousel {
+      padding-bottom: 60px;
+    }
+    .swiper-pagination {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .swiper-pagination-bullet {
+      background: #d1d5db; /* Tailwind's gray-300 */
+      opacity: 0.7;
+    }
+    .swiper-pagination-bullet-active {
+      background: #3b82f6; /* Tailwind's blue-400 */
+      opacity: 1;
     }
   </style>
 </Layout>

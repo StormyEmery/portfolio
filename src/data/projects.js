@@ -15,51 +15,44 @@ export default [
     id: "monopoly-slots",
     title: "MONOPOLY Slots",
     description: "Contributed to feature development and performance optimization for this popular mobile slot game.",
-    images: ["/images/monopoly-slots.png", "/images/monopoly-slots-2.png", "/images/monopoly-slots-3.png"],
-    videos: ["/videos/monopoly-slots-demo.mp4"],
-    tech: ["Unity", "C#", "Mobile Games"],
+    details: "I started off doing feature work and eventually transitioned to working on/refactoring/architecting core game systems, integrating 3rd party SDKs, and performing major Unity version upgrades. My time was mostly spent on the client, but I also dabbled in the server side of things using PHP and Couchbase. Some of the features I worked on include: the FTUE (first time user experience), quests/tasks, team challenges, widgets, Message of the Day, and many more.",
+    thumbnail: "/images/monopoly-slots.png",
+    images: ["/images/ms_ftue_2.png", "/images/ms_tasks.png", "/images/ms_team_challenge.png"],
+    videos: ["/videos/ms_block.mov"],
+    tech: ["Unity", "C#", "Couchbase", "PHP", "AWS S3"],
     link: "/projects/monopoly-slots",
     externalLinks: [
-      { type: "ios", url: "https://apps.apple.com/us/app/monopoly-slots/id1037166097" },
+      { type: "ios", url: "https://apps.apple.com/us/app/monopoly-slots-casino-go-spin/id1215145992" },
       { type: "google", url: "https://play.google.com/store/apps/details?id=com.scientificgames.monopolyslots" }
     ]
   },
   {
-    id: "space-adventure",
-    title: "Space Adventure",
-    description: "A 2D space shooter game built as a personal project to explore Unity physics and particle effects.",
-    images: ["/images/space-adventure-thumb.jpg", "/images/space-adventure-gameplay.jpg"],
-    videos: ["/videos/space-adventure-gameplay.mp4"],
-    tech: ["Unity", "C#"],
-    link: "/projects/space-adventure",
+    id: "auto-clicker",
+    title: "Auto Clicker",
+    description: "An auto clicker app for Windows, built with Python and Win32 API.",
+    details: "This was a fun little project I made to help me playing the game Clicker Heroes. The auto-clicker I was using wanted to start charging for it, so I decided to make my own. It simulates mouse clicks on a given window by providing the window name, click speed, and the position, which you set by selecting a button on the GUI and then clicking where you want the click to be.",
+    thumbnail: "/images/clicker.ico",
+    images: ["/images/auto-clicker_gui.png"],
+    videos: ["/videos/auto_clicker.mp4"],
+    tech: ["Python", "Win32 API", "pynput", "ctypes", "Python Threading"],
+    link: "/projects/auto-clicker",
     externalLinks: [
-      { type: "github", url: "https://github.com/StormyEmery/space-adventure" }
+      { type: "github", url: "https://github.com/StormyEmery/auto-clicker/tree/master" }
     ]
   },
   {
-    id: "task-tracker",
-    title: "Task Tracker App",
-    description: "A full-stack web app for managing tasks, built with a focus on clean UI and efficient backend.",
-    images: ["/images/task-tracker-thumb.jpg", "/images/task-tracker-dashboard.jpg"],
+    id: "static-site-generator",
+    title: "Static Site Generator",
+    description: "A simple static site generator built with Python.",
+    details: "This is a simple static site generator I made while taking a course on Boot.dev. It takes a directory of markdown files and generates a static site with a given template using Python to convert the markdown into valid HTML.",
+    thumbnail: "/images/static-site-gen.png",
+    images: ["/images/markdown.png", "/images/parent-node.png", "/images/static-site.png"],
     videos: [],
-    tech: ["React", "Node.js", "MongoDB"],
-    link: "/projects/task-tracker",
+    tech: ["Python", "Markdown", "HTML", "CSS"],
+    link: "/projects/static-site-generator",
     externalLinks: [
-      { type: "github", url: "https://github.com/StormyEmery/task-tracker" },
-      { type: "website", url: "https://task-tracker.stormyemery.com" }
-    ]
-  },
-  {
-    id: "portfolio-site",
-    title: "Portfolio Website",
-    description: "This very portfolio site, built to showcase my projects and skills using modern web technologies.",
-    images: ["/images/portfolio-thumb.jpg", "/images/portfolio-homepage.jpg"],
-    videos: [],
-    tech: ["Astro", "Tailwind CSS", "JavaScript"],
-    link: "/projects/portfolio-site",
-    externalLinks: [
-      { type: "github", url: "https://github.com/StormyEmery/portfolio" },
-      { type: "website", url: "https://coruscating-torte-c1c22f.netlify.app" }
+      { type: "github", url: "https://github.com/StormyEmery/bootdev_static_site_generator" },
+      { type: "website", url: "https://stormyemery.github.io/bootdev_static_site_generator/" }
     ]
   }
 ];
