@@ -208,16 +208,21 @@ const codeSnippetImages = [
           modifier: 1,
           slideShadows: true,
         },
+        speed: 300,
+        threshold: 10,
+        loop: false,
         breakpoints: {
           0: { // Mobile (below 768px)
             effect: "slide",
             slidesPerView: 1,
             spaceBetween: 20,
+            loop: false,
           },
           768: { // Desktop (768px and above)
             effect: "coverflow",
             slidesPerView: "auto",
             spaceBetween: 0,
+            loop: true,
           },
         },
         navigation: {
@@ -229,7 +234,6 @@ const codeSnippetImages = [
           clickable: true,
           type: "bullets",
         },
-        loop: true,
       });
 
       // Code Snippets Slider
@@ -265,14 +269,14 @@ const codeSnippetImages = [
 
       // Lightbox functionality
       const lightbox = document.getElementById("lightbox");
-      const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement;
+      const lightboxImage = document.getElementById("lightbox-image");
       const lightboxClose = document.getElementById("lightbox-close");
       const images = document.querySelectorAll("[data-lightbox-src]");
 
       images.forEach((image) => {
         image.addEventListener("click", () => {
           if (lightboxImage) {
-            lightboxImage.src = image.getAttribute("data-lightbox-src") || "";
+            (lightboxImage as HTMLImageElement).src = image.getAttribute("data-lightbox-src") || "";
           }
           if (lightbox) {
             lightbox.classList.remove("hidden");
