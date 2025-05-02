@@ -227,6 +227,7 @@ const codeSnippetImages = [
         pagination: {
           el: ".swiper-pagination",
           clickable: true,
+          type: "bullets",
         },
         loop: true,
       });
@@ -238,10 +239,17 @@ const codeSnippetImages = [
         centeredSlides: true,
         slidesPerView: 1,
         spaceBetween: 20,
+        speed: 300,
+        threshold: 10,
+        loop: false,
         breakpoints: {
-          768: { // md: breakpoint
+          0: { // Mobile (below 768px)
+            loop: false,
+          },
+          768: { // Desktop (768px and above)
             slidesPerView: 1.2,
             spaceBetween: 20,
+            loop: true,
           },
         },
         navigation: {
@@ -251,20 +259,20 @@ const codeSnippetImages = [
         pagination: {
           el: ".swiper-pagination",
           clickable: true,
+          type: "bullets",
         },
-        loop: true,
       });
 
       // Lightbox functionality
       const lightbox = document.getElementById("lightbox");
-      const lightboxImage = document.getElementById("lightbox-image");
+      const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement;
       const lightboxClose = document.getElementById("lightbox-close");
       const images = document.querySelectorAll("[data-lightbox-src]");
 
       images.forEach((image) => {
         image.addEventListener("click", () => {
           if (lightboxImage) {
-            (lightboxImage as HTMLImageElement).src = image.getAttribute("data-lightbox-src") || "";
+            lightboxImage.src = image.getAttribute("data-lightbox-src") || "";
           }
           if (lightbox) {
             lightbox.classList.remove("hidden");
