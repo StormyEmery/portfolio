@@ -10,11 +10,11 @@ const ftueDataImages = [
   "/images/ftue_so.gif"
 ];
 
-// Define the code snippets for Client Implementation section
-const codeSnippets = [
-  { content: ftueServiceCode, label: "FtueService Class" },
-  { content: ftueScreenControllerCode, label: "Screen Controller" },
-  { content: ftueScreenCode, label: "Screen View" }
+// Define the code snippet images for Client Implementation section
+const codeSnippetImages = [
+  { src: "/images/ftue_service.png", alt: "FtueService Class Code" },
+  { src: "/images/ftue_screen_controller.png", alt: "Screen Controller Code" },
+  { src: "/images/ftue_screen.png", alt: "Screen View Code" }
 ];
 ---
 
@@ -112,8 +112,8 @@ const codeSnippets = [
             ))}
           </div>
           <!-- Navigation Buttons -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev hidden md:block"></div>
+          <div class="swiper-button-next hidden md:block"></div>
           <!-- Pagination Dots -->
           <div class="swiper-pagination"></div>
         </div>
@@ -139,17 +139,20 @@ const codeSnippets = [
           <!-- Code Snippets in a Slider -->
           <div class="swiper code-snippets-carousel">
             <div class="swiper-wrapper">
-              {codeSnippets.map((snippet) => (
+              {codeSnippetImages.map((snippet) => (
                 <div class="swiper-slide">
-                  <div class="rounded-lg shadow-lg min-w-0">
-                    <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm"><code class="language-csharp">{snippet.content}</code></pre>
-                  </div>
+                  <img
+                    src={snippet.src}
+                    alt={snippet.alt}
+                    class="w-full rounded-lg shadow-lg cursor-pointer"
+                    data-lightbox-src={snippet.src}
+                  />
                 </div>
               ))}
             </div>
             <!-- Navigation Buttons -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev hidden md:block"></div>
+            <div class="swiper-button-next hidden md:block"></div>
             <!-- Pagination Dots -->
             <div class="swiper-pagination"></div>
           </div>
@@ -197,12 +200,25 @@ const codeSnippets = [
         grabCursor: true,
         centeredSlides: true,
         slidesPerView: "auto",
+        spaceBetween: 0,
         coverflowEffect: {
           rotate: 50,
           stretch: 0,
           depth: 100,
           modifier: 1,
           slideShadows: true,
+        },
+        breakpoints: {
+          0: { // Mobile (below 768px)
+            effect: "slide",
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          768: { // Desktop (768px and above)
+            effect: "coverflow",
+            slidesPerView: "auto",
+            spaceBetween: 0,
+          },
         },
         navigation: {
           nextEl: ".swiper-button-next",
@@ -220,8 +236,14 @@ const codeSnippets = [
         effect: "slide",
         grabCursor: true,
         centeredSlides: true,
-        slidesPerView: 1.2,
+        slidesPerView: 1,
         spaceBetween: 20,
+        breakpoints: {
+          768: { // md: breakpoint
+            slidesPerView: 1.2,
+            spaceBetween: 20,
+          },
+        },
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
@@ -235,16 +257,14 @@ const codeSnippets = [
 
       // Lightbox functionality
       const lightbox = document.getElementById("lightbox");
-      const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement;
+      const lightboxImage = document.getElementById("lightbox-image");
       const lightboxClose = document.getElementById("lightbox-close");
       const images = document.querySelectorAll("[data-lightbox-src]");
 
       images.forEach((image) => {
         image.addEventListener("click", () => {
           if (lightboxImage) {
-            if (lightboxImage) {
-              lightboxImage.src = image.getAttribute("data-lightbox-src") || "";
-            }
+            (lightboxImage as HTMLImageElement).src = image.getAttribute("data-lightbox-src") || "";
           }
           if (lightbox) {
             lightbox.classList.remove("hidden");
@@ -277,7 +297,7 @@ const codeSnippets = [
       padding: 20px 0;
     }
     .swiper-slide {
-      width: 600px;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -285,6 +305,8 @@ const codeSnippets = [
     .swiper-button-prev,
     .swiper-button-next {
       color: #3b82f6; /* Tailwind's blue-400 */
+      width: 44px;
+      height: 44px;
     }
     .swiper-button-prev:hover,
     .swiper-button-next:hover {
@@ -292,7 +314,15 @@ const codeSnippets = [
     }
     /* Adjust width for code snippets carousel */
     .code-snippets-carousel .swiper-slide {
-      width: 800px;
+      width: 100%;
+    }
+    @media (min-width: 768px) {
+      .swiper-slide {
+        width: 600px;
+      }
+      .code-snippets-carousel .swiper-slide {
+        width: 800px;
+      }
     }
     /* Ensure pagination dots are below content */
     .ftue-data-carousel {
@@ -311,6 +341,9 @@ const codeSnippets = [
     .swiper-pagination-bullet {
       background: #d1d5db; /* Tailwind's gray-300 */
       opacity: 0.7;
+      width: 10px;
+      height: 10px;
+      margin: 0 4px;
     }
     .swiper-pagination-bullet-active {
       background: #3b82f6; /* Tailwind's blue-400 */
