@@ -27,31 +27,99 @@ if (!project) {
 <Layout title={`${project.title} - Stormy Emery`}>
   <section class="py-16 bg-gray-900">
     <div class="container mx-auto px-4">
+      <!-- Back to Projects Link (Top) -->
+      <div class="text-left mb-4">
+        <a
+          href="/#projects"
+          class="inline-block text-blue-400 hover:underline text-lg font-semibold"
+        >
+          ← Back to Projects
+        </a>
+      </div>
       <h1 class="text-5xl font-bold text-center mb-8 text-white">{project.title}</h1>
-      <p class="text-lg text-center max-w-prose mx-auto mb-12 text-gray-300">
+      <p class="text-lg text-center max-w-prose mx-auto mb-4 text-gray-300">
         {project.description}
       </p>
+      <!-- External Links -->
+      {project.externalLinks && project.externalLinks.length > 0 && (
+        <div class="flex justify-center space-x-6 mb-12">
+          {project.externalLinks.map((externalLink) => (
+            <a
+              href={externalLink.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center text-blue-400 text-lg font-semibold"
+            >
+              <i class={`${externalLink.type === "ios" ? "fab fa-app-store" : externalLink.type === "google" ? "fab fa-google-play" : externalLink.type === "github" ? "fab fa-github" : "fas fa-link"} fa-lg mr-2`}></i>
+              <span class="hover:underline">
+                {externalLink.type === "ios" ? "App Store" : externalLink.type === "google" ? "Google Play" : externalLink.type === "github" ? "GitHub" : "Website"}
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
 
       <!-- Project Details -->
       <div class="mb-16">
         <h2 class="text-3xl font-bold mb-6 text-white">Details</h2>
-        <p class="text-lg text-gray-300 mb-4">
-          {project.description}
-        </p>
+        <p class="text-lg text-gray-300 mb-4">{project.description}</p>
         <p class="text-lg text-gray-300">
           <strong>Tech Stack:</strong> {project.tech.join(", ")}
         </p>
       </div>
 
-      <!-- Project Image -->
-      <div class="mb-16">
-        <h2 class="text-3xl font-bold mb-6 text-white">Screenshot</h2>
-        <img
-          src={project.image}
-          alt={`${project.title} Screenshot`}
-          class="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
-        />
-      </div>
+      <!-- Media Section -->
+      {((project.images && project.images.length > 0) || (project.videos && project.videos.length > 0)) && (
+        <div class="mb-16">
+          <h2 class="text-3xl font-bold mb-6 text-white">Media</h2>
+          <!-- Images: Carousel if 3 or more, Grid if fewer -->
+          {project.images && project.images.length > 0 && (
+            <>
+              {project.images.length >= 3 ? (
+                <div class="swiper project-carousel mb-8">
+                  <div class="swiper-wrapper">
+                    {project.images.map((image) => (
+                      <div class="swiper-slide">
+                        <img
+                          src={image}
+                          alt={`${project.title} Screenshot`}
+                          class="w-full max-w-3xl mx-auto rounded-lg shadow-lg object-contain"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <!-- Navigation Buttons -->
+                  <div class="swiper-button-prev"></div>
+                  <div class="swiper-button-next"></div>
+                </div>
+              ) : (
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                  {project.images.map((image) => (
+                    <img
+                      src={image}
+                      alt={`${project.title} Screenshot`}
+                      class="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+          <!-- Videos -->
+          {project.videos && project.videos.length > 0 && (
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {project.videos.map((video) => (
+                <div class="relative w-full max-w-3xl mx-auto rounded-lg shadow-lg overflow-hidden">
+                  <video controls class="w-full max-h-[450px] object-contain">
+                    <source src={video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       <!-- Back to Projects Link -->
       <div class="text-center">
@@ -64,4 +132,52 @@ if (!project) {
       </div>
     </div>
   </section>
+
+  <!-- Initialize Swiper Carousel (only if needed) -->
+  {project.images && project.images.length >= 3 && (
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        new Swiper(".project-carousel", {
+          effect: "coverflow",
+          grabCursor: true,
+          centeredSlides: true,
+          slidesPerView: "auto",
+          coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          },
+          navigation: {
+            nextEl: ".swiper-button-prev",
+            prevEl: ".swiper-button-next",
+          },
+          loop: true,
+        });
+      });
+    </script>
+  )}
+
+  <!-- Swiper Custom Styles -->
+  <style>
+    .swiper {
+      width: 100%;
+      padding: 20px 0;
+    }
+    .swiper-slide {
+      width: 600px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: #3b82f6; /* Tailwind's blue-400 */
+    }
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover {
+      color: #ffffff; /* White on hover */
+    }
+  </style>
 </Layout>

@@ -1,6 +1,21 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { ftueServiceCode, ftueScreenControllerCode, ftueScreenCode } from '../../data/ftue-snippets.js';
+
+// Define the images for Client FTUE Data section
+const ftueDataImages = [
+  "/images/ftue_sequence_data.png",
+  "/images/ftue_trigger_data.png",
+  "/images/ftue_step_data.png",
+  "/images/ftue_so.gif"
+];
+
+// Define the code snippets for Client Implementation section
+const codeSnippets = [
+  { content: ftueServiceCode, label: "FtueService Class" },
+  { content: ftueScreenControllerCode, label: "Screen Controller" },
+  { content: ftueScreenCode, label: "Screen View" }
+];
 ---
 
 <Layout title="Prize Kingdoms - Stormy Emery">
@@ -16,9 +31,30 @@ import { ftueServiceCode, ftueScreenControllerCode, ftueScreenCode } from '../..
         </a>
       </div>
       <h1 class="text-5xl font-bold text-center mb-8 text-white">Prize Kingdoms</h1>
-      <p class="text-lg text-center max-w-prose mx-auto mb-12 text-gray-300">
+      <p class="text-lg text-center max-w-prose mx-auto mb-4 text-gray-300">
         Prize Kingdoms is a mobile game I worked on while at INK Games where I focused on full-stack feature development, performance optimizations, and cross-team collaboration. Below, I’ll dive into the details of one of the key features I developed, the first time user experience (FTUE).
       </p>
+      <!-- App Store and Google Play Links -->
+      <div class="flex justify-center space-x-6 mb-12">
+        <a
+          href="https://apps.apple.com/us/app/prize-kingdoms/id1554511237"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center text-blue-400 text-lg font-semibold"
+        >
+          <i class="fab fa-app-store fa-lg mr-2"></i>
+          <span class="hover:underline">App Store</span>
+        </a>
+        <a
+          href="https://play.google.com/store/apps/details?id=com.inkgames.prizekingdoms&hl=en_US"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center text-blue-400 text-lg font-semibold"
+        >
+          <i class="fab fa-google-play fa-lg mr-2"></i>
+          <span class="hover:underline">Google Play</span>
+        </a>
+      </div>
 
       <!-- Overview Section -->
       <div class="mb-16">
@@ -61,27 +97,24 @@ import { ftueServiceCode, ftueScreenControllerCode, ftueScreenCode } from '../..
           The sequence scriptable object is pretty straightforward, but the trigger and step scriptable objects required custom editor code. 
           I needed to be able to have a generic list of variables that could be any defined type I needed. Below you will find a couple of screenshots as well as a gif to demostrate the various data objects.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <img
-            src="/images/ftue_sequence_data.png"
-            alt="Prize Kingdoms Sequence Scriptable Object"
-            class="w-full rounded-lg shadow-lg"
-          />
-          <img
-            src="/images/ftue_trigger_data.png"
-            alt="Prize Kingdoms Trigger Scriptable Object"
-            class="w-full rounded-lg shadow-lg"
-          />
-          <img
-            src="/images/ftue_step_data.png"
-            alt="Prize Kingdoms Step Scriptable Object"
-            class="w-full rounded-lg shadow-lg"
-          />
-          <img
-            src="/images/ftue_so.gif"
-            alt="Prize Kingdoms Generic Variable List Demo"
-            class="w-full rounded-lg shadow-lg"
-          />
+        <!-- Image Carousel -->
+        <div class="swiper ftue-data-carousel">
+          <div class="swiper-wrapper">
+            {ftueDataImages.map((image) => (
+              <div class="swiper-slide">
+                <img
+                  src={image}
+                  alt={image.includes("ftue_sequence_data") ? "Prize Kingdoms Sequence Scriptable Object" : image.includes("ftue_trigger_data") ? "Prize Kingdoms Trigger Scriptable Object" : image.includes("ftue_step_data") ? "Prize Kingdoms Step Scriptable Object" : "Prize Kingdoms Generic Variable List Demo"}
+                  class="w-full rounded-lg shadow-lg"
+                />
+              </div>
+            ))}
+          </div>
+          <!-- Navigation Buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <!-- Pagination Dots -->
+          <div class="swiper-pagination"></div>
         </div>
       </div>
 
@@ -102,25 +135,22 @@ import { ftueServiceCode, ftueScreenControllerCode, ftueScreenCode } from '../..
               class="w-full h-auto rounded-lg"
             />
           </div>
-          <!-- Code Snippets in a 2-Column Grid -->
-          <div class="space-y-8">
-            <!-- First Row: FtueService and Screen Controller -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <!-- FtueService Class -->
-              <div class="min-w-0 min-h-[300px]">
-                <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm shadow-lg"><code class="language-csharp">{ftueServiceCode}</code></pre>
-              </div>
-              <!-- Screen Controller -->
-              <div class="min-w-0 min-h-[300px]">
-                <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm shadow-lg"><code class="language-csharp">{ftueScreenControllerCode}</code></pre>
-              </div>
+          <!-- Code Snippets in a Carousel -->
+          <div class="swiper code-snippets-carousel">
+            <div class="swiper-wrapper">
+              {codeSnippets.map((snippet) => (
+                <div class="swiper-slide">
+                  <div class="rounded-lg shadow-lg min-w-0">
+                    <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm"><code class="language-csharp">{snippet.content}</code></pre>
+                  </div>
+                </div>
+              ))}
             </div>
-            <!-- Second Row: Screen View (Centered) -->
-            <div class="md:flex md:justify-center">
-              <div class="rounded-lg shadow-lg min-w-0">
-                <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm"><code class="language-csharp">{ftueScreenCode}</code></pre>
-              </div>
-            </div>
+            <!-- Navigation Buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <!-- Pagination Dots -->
+            <div class="swiper-pagination"></div>
           </div>
         </div>
       </div>
@@ -151,24 +181,99 @@ import { ftueServiceCode, ftueScreenControllerCode, ftueScreenCode } from '../..
     </div>
   </section>
 
-  <!-- Script to Apply Prism.js Highlighting -->
+  <!-- Initialize Swiper Carousels -->
   <script>
-    // Function to apply Prism.js highlighting
-    function applyPrismHighlighting() {
-      if (typeof Prism !== "undefined") {
-        Prism.highlightAll();
-        console.log("Prism.js highlighting applied successfully.");
-      } else {
-        console.warn("Prism.js not loaded yet, retrying in 500ms...");
-        setTimeout(applyPrismHighlighting, 500);
-      }
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      // FTUE Data Carousel (Images)
+      new Swiper(".ftue-data-carousel", {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        loop: true,
+      });
 
-    // Run highlighting after DOM is loaded
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-      applyPrismHighlighting();
-    } else {
-      document.addEventListener("DOMContentLoaded", applyPrismHighlighting);
-    }
+      // Code Snippets Carousel
+      new Swiper(".code-snippets-carousel", {
+        effect: "slide",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 1.2,
+        spaceBetween: 20,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        loop: true,
+      });
+    });
   </script>
+
+  <!-- Swiper Custom Styles -->
+  <style>
+    .swiper {
+      width: 100%;
+      padding: 20px 0;
+      position: relative;
+    }
+    .swiper-slide {
+      width: 600px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: #3b82f6; /* Tailwind's blue-400 */
+    }
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover {
+      color: #ffffff; /* White on hover */
+    }
+    /* Adjust width for code snippets carousel */
+    .code-snippets-carousel .swiper-slide {
+      width: 800px;
+    }
+    /* Style pagination dots */
+    .swiper-pagination {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .ftue-data-carousel {
+      padding-bottom: 60px;
+    }
+    .code-snippets-carousel {
+      padding-bottom: 40px;
+    }
+    .swiper-pagination-bullet {
+      background: #d1d5db; /* Tailwind's gray-300 */
+      opacity: 0.7;
+    }
+    .swiper-pagination-bullet-active {
+      background: #3b82f6; /* Tailwind's blue-400 */
+      opacity: 1;
+    }
+  </style>
 </Layout>
