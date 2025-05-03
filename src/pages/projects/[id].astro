@@ -22,9 +22,6 @@ const project = projects.find((p) => p.id === id);
 if (!project) {
   return Astro.redirect('/404');
 }
-
-// Determine the number of videos for iteration in the script
-const videoCount = project.videos ? project.videos.length : 0;
 ---
 
 <Layout title={`${project.title} - Stormy Emery`}>
@@ -93,8 +90,8 @@ const videoCount = project.videos ? project.videos.length : 0;
                     ))}
                   </div>
                   <!-- Navigation Buttons -->
-                  <div class="swiper-button-prev hidden md:block"></div>
-                  <div class="swiper-button-next hidden md:block"></div>
+                  <div class="swiper-button-prev"></div>
+                  <div class="swiper-button-next"></div>
                   <!-- Pagination Dots -->
                   <div class="swiper-pagination"></div>
                 </div>
@@ -122,9 +119,9 @@ const videoCount = project.videos ? project.videos.length : 0;
           <!-- Videos -->
           {project.videos && project.videos.length > 0 && (
             <div class={`grid ${project.videos.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'} gap-8`}>
-              {project.videos.map((video, index) => (
-                <div class="relative w-full max-w-6xl mx-auto rounded-lg shadow-lg overflow-hidden">
-                  <video id={`project-video-${index}`} controls class="w-full max-h-[600px] object-contain" preload="metadata">
+              {project.videos.map((video) => (
+                <div class="relative w-full max-w-4xl mx-auto rounded-lg shadow-lg overflow-hidden">
+                  <video controls class="w-full max-h-[600px] object-contain">
                     <source src={video} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
@@ -149,11 +146,20 @@ const videoCount = project.videos ? project.videos.length : 0;
 
   <!-- Lightbox Modal -->
   <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
-    <span id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl cursor-pointer">×</span>
+    <span id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl cursor-pointer">&times;</span>
     <img id="lightbox-image" class="max-w-[90%] max-h-[90%] rounded-lg" src="" alt="Enlarged view" />
   </div>
 
-  <!-- Initialize Swiper Carousel, Lightbox, and Videos (only if needed) -->
+  <!-- Footer Section -->
+  <footer class="bg-gray-900 py-6">
+    <div class="container mx-auto px-4 text-center text-gray-300">
+      <p class="text-sm mb-2">This portfolio is a project built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Astro</a>, <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Tailwind CSS</a>, and <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Netlify</a>. Check out the source code on <a href="https://github.com/StormyEmery/portfolio" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">GitHub</a>.</p>
+      <p class="text-sm mb-2">© 2025 Stormy Emery. All rights reserved.</p>
+      <a href="#" class="text-blue-400 hover:underline text-sm">Back to Top</a>
+    </div>
+  </footer>
+
+  <!-- Initialize Swiper Carousel and Lightbox (only if needed) -->
   {project.images && project.images.length >= 3 && (
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -163,30 +169,12 @@ const videoCount = project.videos ? project.videos.length : 0;
           grabCursor: true,
           centeredSlides: true,
           slidesPerView: "auto",
-          spaceBetween: 0,
           coverflowEffect: {
             rotate: 50,
             stretch: 0,
             depth: 100,
             modifier: 1,
             slideShadows: true,
-          },
-          speed: 300,
-          threshold: 10,
-          loop: false,
-          breakpoints: {
-            0: { // Mobile (below 768px)
-              effect: "slide",
-              slidesPerView: 1,
-              spaceBetween: 20,
-              loop: false,
-            },
-            768: { // Desktop (768px and above)
-              effect: "coverflow",
-              slidesPerView: "auto",
-              spaceBetween: 0,
-              loop: true,
-            },
           },
           navigation: {
             nextEl: ".swiper-button-prev",
@@ -195,8 +183,8 @@ const videoCount = project.videos ? project.videos.length : 0;
           pagination: {
             el: ".swiper-pagination",
             clickable: true,
-            type: "bullets",
           },
+          loop: true,
         });
 
         // Lightbox functionality
@@ -231,15 +219,6 @@ const videoCount = project.videos ? project.videos.length : 0;
             }
           });
         }
-
-        // Force video metadata load to display first frame
-        const videoCount = document.querySelectorAll('video').length;
-        for (let index = 0; index < videoCount; index++) {
-          const video = document.getElementById(`project-video-${index}`) as HTMLVideoElement;
-          if (video) {
-            video.load();
-          }
-        }
       });
     </script>
   )}
@@ -252,7 +231,7 @@ const videoCount = project.videos ? project.videos.length : 0;
       position: relative;
     }
     .swiper-slide {
-      width: 100%;
+      width: 800px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -260,8 +239,6 @@ const videoCount = project.videos ? project.videos.length : 0;
     .swiper-button-prev,
     .swiper-button-next {
       color: #3b82f6; /* Tailwind's blue-400 */
-      width: 44px;
-      height: 44px;
     }
     .swiper-button-prev:hover,
     .swiper-button-next:hover {
@@ -281,17 +258,10 @@ const videoCount = project.videos ? project.videos.length : 0;
     .swiper-pagination-bullet {
       background: #d1d5db; /* Tailwind's gray-300 */
       opacity: 0.7;
-      width: 10px;
-      height: 10px;
-      margin: 0 4px;
     }
     .swiper-pagination-bullet-active {
       background: #3b82f6; /* Tailwind's blue-400 */
       opacity: 1;
-    }
-    /* Fallback background for videos */
-    video {
-      background-color: #1f2937; /* Tailwind's gray-800 */
     }
   </style>
 </Layout>
