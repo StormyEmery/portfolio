@@ -3,6 +3,7 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "Projects", href: "#projects" },
   { name: "Contact", href: "#contact" },
+  { name: "Resume", href: "/files/resume.pdf", download: "Stormy_Emery_Resume.pdf" },
 ];
 ---
 
@@ -15,9 +16,12 @@ const navLinks = [
       {navLinks.map((link) => (
         <a
           href={link.href}
-          class="text-lg text-gray-300 hover:text-blue-400 transition-colors duration-200 active-link"
+          download={link.download ? link.download : undefined}
+          class={`text-lg text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center ${link.href.startsWith("#") || link.href === "/" ? "active-link" : "bg-blue-600/20 hover:bg-blue-600/30 px-2 py-1 rounded"}`}
           data-href={link.href}
+          aria-label={link.name === "Resume" ? "Download Stormy Emery's Resume" : `Navigate to ${link.name}`}
         >
+          {link.name === "Resume" && <i class="fas fa-download fa-sm mr-1"></i>}
           {link.name}
         </a>
       ))}
@@ -49,9 +53,12 @@ const navLinks = [
     {navLinks.map((link) => (
       <a
         href={link.href}
-        class="text-lg text-gray-300 hover:text-blue-400 py-2 transition-colors duration-200 active-link"
+        download={link.download ? link.download : undefined}
+        class={`text-lg text-gray-300 hover:text-blue-400 py-2 transition-colors duration-200 flex items-center ${link.href.startsWith("#") || link.href === "/" ? "active-link" : "bg-blue-600/20 hover:bg-blue-600/30 px-2 rounded"}`}
         data-href={link.href}
+        aria-label={link.name === "Resume" ? "Download Stormy Emery's Resume" : `Navigate to ${link.name}`}
       >
+        {link.name === "Resume" && <i class="fas fa-download fa-sm mr-1"></i>}
         {link.name}
       </a>
     ))}
@@ -96,9 +103,18 @@ const navLinks = [
     const links = document.querySelectorAll(".active-link");
     links.forEach((link) => {
       link.addEventListener("click", (e) => {
-        e.preventDefault();
         const href = link.getAttribute("data-href") || "";
+        
+        // Skip smooth scrolling for download links
+        if (href === "/files/resume.pdf") {
+          // Hide mobile nav after clicking the resume link
+          if (mobileNav && !mobileNav.classList.contains("hidden")) {
+            mobileNav.classList.add("hidden");
+          }
+          return; // Allow the default download behavior
+        }
 
+        e.preventDefault();
         // Update active state immediately
         links.forEach((l) => {
           l.classList.remove("text-blue-400");
