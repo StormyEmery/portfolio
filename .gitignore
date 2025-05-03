@@ -1,6 +1,5 @@
 # build output
 dist/
-# generated types
 .astro/
 
 # dependencies
@@ -12,13 +11,60 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
 .env.production
+.env.local
+.env.development
+.env.test
 
 # macOS-specific files
 .DS_Store
 
-# jetbrains setting folder
+# Linux-specific files
+*.swp
+*.swo
+*.~lock.*
+
+# Windows-specific files
+Thumbs.db
+desktop.ini
+
+# JetBrains IDE settings
 .idea/
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.old
+
+# Generated files
+*.log
+*.out
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Test output
+*.test-results/
+*.spec-results/
+
+# Local tooling files
+*.eslintcache
+*.stylelintcache
+*.tsbuildinfo
+
+# Astro preview cache
+.astro-preview/
+
+# Git-specific files
+*.orig
